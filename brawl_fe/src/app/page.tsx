@@ -1,24 +1,23 @@
 "use client";
 
-import styles from "./page.module.css";
-import useClubGetAllQuery from "@/services/api/club/useGetAllClubsQuery";
+import BasicLayout from "@/common/components/basic-layout/BasicLayout";
+import CollapsedComponent from "@/common/components/mui/collapsed-component/CollapsedCompoent";
+import Ranking from "@/common/components/ranking/Ranking";
+import { useClubContext } from "@/common/contexts/club-context/ClubContext";
+import useGetClubRankingQuery from "@/services/api/club/useGetClubRankingQuery";
 
 export default function Home() {
-  const { data, isLoading } = useClubGetAllQuery();
+  const { activeTag } = useClubContext();
+
+  const { data: players, isLoading } = useGetClubRankingQuery({
+    urlParams: {
+      Tag: activeTag,
+    },
+  });
 
   return (
-    <div>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        data?.map((club) => (
-          <div key={club.tag} className={styles.card}>
-            <p>
-              {club.name} {club.tag}
-            </p>
-          </div>
-        ))
-      )}
-    </div>
+    <BasicLayout>
+      <Ranking title="Ranking" players={players} isLoading={isLoading} />
+    </BasicLayout>
   );
 }
