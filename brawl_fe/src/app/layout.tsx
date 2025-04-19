@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import Setup from "./_items/Setup";
+import BasicLayout from "@/common/components/basic-layout/BasicLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,13 +38,15 @@ export default function RootLayout({
     >
       <body
         style={{
-          backgroundColor: "#0D0D0D",
+          background: "linear-gradient(to bottom, #1e3a8a, #2563eb)",
           color: "#fff",
           minHeight: "100vh",
           fontFamily: "var(--font-roboto)",
         }}
       >
-        <Setup>{children}</Setup>
+        <Setup>
+          <BasicLayout>{children}</BasicLayout>
+        </Setup>
       </body>
     </html>
   );

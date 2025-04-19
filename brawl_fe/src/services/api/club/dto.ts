@@ -18,3 +18,18 @@ export interface PlayerDetailsDto extends PlayerDto {
 export interface PlayerRankingDto extends PlayerDetailsDto {
   rank: number;
 }
+
+export interface PlayerOfPeriodDto extends PlayerDetailsDto {
+  result: number;
+}
+
+export interface PeriodItemDto {
+  playerOnStart: PlayerDetailsDto;
+  playerOnEnd: PlayerOfPeriodDto;
+}
+
+export interface ClubPeriodDto {
+  periodStart: string;
+  periodEnd: string;
+  players: PeriodItemDto[];
+}

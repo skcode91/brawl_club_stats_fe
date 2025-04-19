@@ -1,12 +1,12 @@
 "use client";
-
-import BasicLayout from "@/common/components/basic-layout/BasicLayout";
-import CollapsedComponent from "@/common/components/mui/collapsed-component/CollapsedCompoent";
+import ClubSelect from "@/common/components/club-select/ClubSelect";
 import Ranking from "@/common/components/ranking/Ranking";
 import { useClubContext } from "@/common/contexts/club-context/ClubContext";
 import useGetClubRankingQuery from "@/services/api/club/useGetClubRankingQuery";
+import { Stack } from "@mui/material";
+import React from "react";
 
-export default function Home() {
+const page = () => {
   const { activeTag } = useClubContext();
 
   const { data: players, isLoading } = useGetClubRankingQuery({
@@ -16,8 +16,11 @@ export default function Home() {
   });
 
   return (
-    <BasicLayout>
+    <Stack>
+      <ClubSelect />
       <Ranking title="Ranking" players={players} isLoading={isLoading} />
-    </BasicLayout>
+    </Stack>
   );
-}
+};
+
+export default page;

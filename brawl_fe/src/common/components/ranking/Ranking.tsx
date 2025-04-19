@@ -13,6 +13,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { PlayerRankingDto } from "@/services/api/club/dto";
+import useIsMobileResolution from "@/hooks/useIsMobileResolution";
 
 export interface RankingProps {
   title: string;
@@ -21,6 +22,8 @@ export interface RankingProps {
 }
 
 const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
+  const isMobileResolution = useIsMobileResolution();
+
   return (
     <Box sx={{ maxWidth: "800px", margin: "0 auto", padding: 2 }}>
       <Typography variant="h4" gutterBottom align="center">
@@ -37,9 +40,9 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell>Player</TableCell>
-                <TableCell>Club</TableCell>
-                <TableCell align="right">Trophies</TableCell>
+                <TableCell>Gracz</TableCell>
+                {!isMobileResolution && <TableCell>Klub</TableCell>}
+                <TableCell align="right">Puchary</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -57,12 +60,14 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell>
-                    <Typography>{player.clubName}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {player.clubTag}
-                    </Typography>
-                  </TableCell>
+                  {!isMobileResolution && (
+                    <TableCell>
+                      <Typography>{player.clubName}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {player.clubTag}
+                      </Typography>
+                    </TableCell>
+                  )}
                   <TableCell align="right">{player.trophies}</TableCell>
                 </TableRow>
               ))}
@@ -71,7 +76,7 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
         </TableContainer>
       ) : (
         <Typography align="center" color="text.secondary" sx={{ mt: 4 }}>
-          No players found.
+          Nie znaleziono graczy
         </Typography>
       )}
     </Box>
