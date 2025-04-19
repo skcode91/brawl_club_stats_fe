@@ -22,6 +22,7 @@ const tabItems: TabItem[] = [
   { label: "General", value: "general" },
   { label: "Ranking", value: "ranking" },
   { label: "Progress", value: "progress" },
+  { label: "Regulamin", value: "rules" },
 ];
 
 const defaultTab = tabItems[0].value;
