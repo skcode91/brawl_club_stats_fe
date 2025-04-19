@@ -11,10 +11,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/common/theme";
 import { ClubProvider } from "@/common/contexts/club-context/ClubContext";
 import { plPL } from "@mui/x-date-pickers/locales";
-import dayjs from "dayjs";
-import "dayjs/locale/pl";
-
-dayjs.locale("pl");
 
 const Setup: React.FC<PropsWithChildren> = (props) => {
   return (
@@ -23,12 +19,10 @@ const Setup: React.FC<PropsWithChildren> = (props) => {
         <QueryClientProvider client={queryClient}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
-            adapterLocale="pl"
             localeText={
               plPL.components.MuiLocalizationProvider.defaultProps.localeText
             }
           >
-            {" "}
             <ClubProvider>{props.children}</ClubProvider>
           </LocalizationProvider>
         </QueryClientProvider>

@@ -10,8 +10,8 @@ import {
   useTheme,
 } from "@mui/material";
 import useClubGetAllQuery from "@/services/api/club/useGetAllClubsQuery";
-import { useClubContext } from "@/common/contexts/club-context/ClubContext";
 import { usePathname, useRouter } from "next/navigation";
+import useIsMobileResolution from "@/hooks/useIsMobileResolution";
 
 interface TabItem {
   label: string;
@@ -27,10 +27,10 @@ const tabItems: TabItem[] = [
 const defaultTab = tabItems[0].value;
 
 const Header = () => {
-  const { data: clubs, isLoading } = useClubGetAllQuery();
   const router = useRouter();
   const pathname = usePathname();
   const theme = useTheme();
+  const isMobile = useIsMobileResolution();
 
   const goToTab = (tab?: TabItem) => {
     if (!tab) return;
@@ -54,44 +54,41 @@ const Header = () => {
         backdropFilter: "blur(10px)",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.5)",
         zIndex: 1100,
+        padding: isMobile ? "0 16px" : "0 32px",
       }}
     >
       <Toolbar>
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <Box sx={{ width: "100%" }}>
-            <Tabs
-              value={activePage?.value ?? defaultTab}
-              textColor="inherit"
-              indicatorColor="secondary"
-              variant="scrollable"
-              scrollButtons="auto"
-              sx={{
-                "& .MuiTab-root": {
-                  fontWeight: "bold",
-                  color: "#fff",
-                  transition: "all 0.3s ease",
-                },
-                "& .MuiTab-root:hover": {
-                  color: theme.palette.primary.main,
-                },
-                "& .Mui-selected": {
-                  color: theme.palette.secondary.main,
-                },
-              }}
-            >
-              {tabItems.map((item) => (
-                <Tab
-                  key={item.value}
-                  label={item.label}
-                  value={item.value}
-                  onClick={() => goToTab(item)}
-                />
-              ))}
-            </Tabs>
-          </Box>
-        )}
+        <Box sx={{ width: "100%" }}>
+          <Tabs
+            value={activePage?.value ?? defaultTab}
+            textColor="inherit"
+            indicatorColor="secondary"
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{
+              "& .MuiTab-root": {
+                fontWeight: "bold",
+                color: "#fff",
+                transition: "all 0.3s ease",
+              },
+              "& .MuiTab-root:hover": {
+                color: theme.palette.primary.main,
+              },
+              "& .Mui-selected": {
+                color: theme.palette.secondary.main,
+              },
+            }}
+          >
+            {tabItems.map((item) => (
+              <Tab
+                key={item.value}
+                label={item.label}
+                value={item.value}
+                onClick={() => goToTab(item)}
+              />
+            ))}
+          </Tabs>
+        </Box>
       </Toolbar>
     </AppBar>
   );

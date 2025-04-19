@@ -25,7 +25,14 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
   const isMobileResolution = useIsMobileResolution();
 
   return (
-    <Box sx={{ maxWidth: "800px", margin: "0 auto", padding: 2 }}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: isMobileResolution ? "100%" : "800px",
+        margin: "0 auto",
+        padding: 2,
+      }}
+    >
       <Typography variant="h4" gutterBottom align="center">
         {title}
       </Typography>
@@ -35,12 +42,19 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
           <CircularProgress />
         </Box>
       ) : players && players.length > 0 ? (
-        <TableContainer component={Paper} elevation={3}>
-          <Table>
+        <TableContainer
+          component={Paper}
+          elevation={3}
+          sx={{
+            overflowX: "auto",
+            width: "100%",
+          }}
+        >
+          <Table sx={{ width: "100%" }}>
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell>Gracz</TableCell>
+                <TableCell width="100%">Gracz</TableCell>
                 {!isMobileResolution && <TableCell>Klub</TableCell>}
                 <TableCell align="right">Puchary</TableCell>
               </TableRow>
@@ -49,8 +63,15 @@ const Ranking: React.FC<RankingProps> = ({ title, players, isLoading }) => {
               {players.map((player) => (
                 <TableRow key={player.tag}>
                   <TableCell>{player.rank}</TableCell>
-                  <TableCell>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableCell sx={{ width: "100%" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        width: "100%",
+                      }}
+                    >
                       <Avatar>{player.name[0]}</Avatar>
                       <Box>
                         <Typography fontWeight="bold">{player.name}</Typography>

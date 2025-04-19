@@ -1,5 +1,10 @@
 import _instance from "../_instance";
-import { ClubBaseInfoDto, ClubPeriodDto, PlayerRankingDto } from "./dto";
+import {
+  ClubBaseInfoDto,
+  ClubPeriodDto,
+  PlayerOfPeriodDto,
+  PlayerRankingDto,
+} from "./dto";
 
 export type ClubGetRankingParams = {
   Tag?: string;
@@ -9,6 +14,11 @@ export type ClubGetClubPeriodStatsParams = {
   ClubTag?: string;
   PeriodStart: Date;
   PeriodEnd: Date;
+};
+
+export type ClubGetPlayerOfDayParams = {
+  ClubTag?: string;
+  Date: Date;
 };
 
 const club = {
@@ -22,6 +32,11 @@ const club = {
   },
   getClubPeriodStats: async (params: ClubGetClubPeriodStatsParams) => {
     return _instance.get<ClubPeriodDto>("/club-period-stats", {
+      params,
+    });
+  },
+  getPlayerOfDay: async (params: ClubGetPlayerOfDayParams) => {
+    return _instance.get<PlayerOfPeriodDto>("/player-of-day", {
       params,
     });
   },

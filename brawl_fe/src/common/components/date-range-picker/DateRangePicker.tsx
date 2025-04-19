@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useClubContext } from "@/common/contexts/club-context/ClubContext";
 import dayjs, { Dayjs } from "dayjs";
+import useIsMobileResolution from "@/hooks/useIsMobileResolution";
 
 const minDate = dayjs("2025-04-11T09:00:00");
 
@@ -15,6 +16,7 @@ const roundToFullHour = (date: Dayjs | null): Dayjs | null => {
 
 const DateRangePicker = () => {
   const { startDate, endDate, setStartDate, setEndDate } = useClubContext();
+  const isMobile = useIsMobileResolution();
 
   const handleStartChange = (date: Dayjs | null) => {
     setStartDate(roundToFullHour(date));
@@ -38,6 +40,7 @@ const DateRangePicker = () => {
         ampm={false}
         minDate={minDate}
         maxDate={endDate ?? dayjs()}
+        sx={{ width: isMobile ? "100%" : "auto" }}
       />
       <DateTimePicker
         label="Data końcowa"
@@ -47,6 +50,7 @@ const DateRangePicker = () => {
         ampm={false}
         minDate={minDate ?? startDate}
         maxDate={dayjs()}
+        sx={{ width: isMobile ? "100%" : "auto" }}
       />
     </Stack>
   );

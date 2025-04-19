@@ -1,22 +1,27 @@
+"use client";
 import PlayerOfDay from "@/common/components/player-of-day/PlayerOfDay";
 import PlayerOfToday from "@/common/components/player-of-today/PlayerOfToday";
+import useIsMobileResolution from "@/hooks/useIsMobileResolution";
 import { Box, Stack } from "@mui/material";
 import Image from "next/image";
 
 const page = () => {
+  const isMobile = useIsMobileResolution();
+
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        padding: "16px",
-      }}
-    >
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ minHeight: "100vh", padding: "16px" }}>
+      <Stack
+        direction={isMobile ? "column" : "row"}
+        alignItems="stretch"
+        justifyContent="space-between"
+        gap="16px"
+      >
         <Box
           sx={{
             position: "relative",
-            width: 300,
-            height: 300,
+            width: isMobile ? "100%" : 300,
+            aspectRatio: "1 / 1",
+            flexShrink: 0,
           }}
         >
           <Image
@@ -31,8 +36,14 @@ const page = () => {
             }}
           />
         </Box>
-        <PlayerOfDay />
-        <PlayerOfToday />
+
+        <Box sx={{ width: isMobile ? "100%" : "auto", flex: 1 }}>
+          <PlayerOfDay />
+        </Box>
+
+        <Box sx={{ width: isMobile ? "100%" : "auto", flex: 1 }}>
+          <PlayerOfToday />
+        </Box>
       </Stack>
     </Box>
   );

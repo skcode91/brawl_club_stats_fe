@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -12,17 +12,17 @@ import {
   TableHead,
   TableRow,
   Stack,
-  Button,
   CircularProgress,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ClubSelect from "@/common/components/club-select/ClubSelect";
 import { useClubContext } from "@/common/contexts/club-context/ClubContext";
-import dayjs, { Dayjs } from "dayjs";
 import useClubGetClubPeriodStatsQuery from "@/services/api/club/useGetClubPeriodStatsQuery";
 import DateRangePicker from "@/common/components/date-range-picker/DateRangePicker";
+import useIsMobileResolution from "@/hooks/useIsMobileResolution";
 
 const Progress: React.FC = () => {
+  const isMobile = useIsMobileResolution();
+
   const { activeTag, startDate, endDate } = useClubContext();
 
   const isValidRange = startDate && endDate && startDate.isBefore(endDate);
@@ -53,8 +53,12 @@ const Progress: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Gracz</TableCell>
-                <TableCell align="right">Puchary na start</TableCell>
-                <TableCell align="right">Puchary na koniec</TableCell>
+                <TableCell align="right">
+                  {isMobile ? "Start" : "Puchary na start"}
+                </TableCell>
+                <TableCell align="right">
+                  {isMobile ? "Koniec" : "Puchary na koniec"}
+                </TableCell>
                 <TableCell align="right">Zmiana</TableCell>
               </TableRow>
             </TableHead>
@@ -86,9 +90,13 @@ const Progress: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : (
+      ) : startDate && endDate && isValidRange ? (
         <Typography align="center" color="text.secondary" sx={{ mt: 4 }}>
           Brak danych dla wybranego okresu.
+        </Typography>
+      ) : (
+        <Typography align="center" color="text.secondary" sx={{ mt: 4 }}>
+          Proszę wybrać daty.
         </Typography>
       )}
     </Stack>
